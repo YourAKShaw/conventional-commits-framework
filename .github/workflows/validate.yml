@@ -39,6 +39,8 @@ jobs:
           PY
 
       - name: Check commit messages
+        # Dependabot cannot add the Breaking or Co-Authored-By trailers.
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
         env:
           TRAILER: "Co-Authored-By: Claude Code <noreply@anthropic.com>"
           BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
