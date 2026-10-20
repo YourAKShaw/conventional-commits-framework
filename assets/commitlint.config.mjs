@@ -27,11 +27,14 @@ export default {
           'write BREAKING-CHANGE (hyphen); the spaced form hides the git trailer block',
         ],
         'co-author-exact': ({ raw }, when = 'always', expected = CO_AUTHOR) => {
-          const coAuthors = lines(raw).filter((line) => /^co-authored-by:/i.test(line));
           if (when === 'never') return [true];
+          const coAuthors = lines(raw).filter((line) => /^co-authored-by:/i.test(line));
+          const email = expected.slice(expected.lastIndexOf('<'));
+          const varied = coAuthors.some((line) => line !== expected && line.endsWith(email));
+          const wrongKey = coAuthors.some((line) => !line.startsWith('Co-Authored-By: '));
           return [
-            coAuthors.length > 0 && coAuthors.every((line) => line === expected),
-            `AI-assisted commits must end with exactly: ${expected}`,
+            coAuthors.includes(expected) && !varied && !wrongKey,
+            `AI-assisted commits need exactly one agent trailer: ${expected}`,
           ];
         },
       },
@@ -40,7 +43,7 @@ export default {
   rules: {
     'header-max-length': [2, 'always', 72],
     'scope-empty': [2, 'never'],
-    'scope-case': [2, 'always', 'kebab-case'],
+    'scope-case': [2, 'always', 'lower-case'],
     'subject-min-length': [2, 'always', 10],
     'body-leading-blank': [2, 'always'],
     'body-empty': [2, 'never'],

@@ -30,7 +30,7 @@ Columns below: **Conventional** is the `@commitlint/config-conventional` setting
 | :--- | :--- | :--- | :--- |
 | `scope-empty` | A scope is present (`never` = required) | — | **error, required** |
 | `scope-enum` | Scope is in the allowed list; multi-scopes split on `/`, `\`, `,` | — | set per project |
-| `scope-case` | Scope letter case | — | **error, kebab-case** |
+| `scope-case` | Scope letter case | — | **error, lower-case** (allows `@scope/pkg`) |
 | `scope-min-length` | Scope has at least N characters | — | — |
 | `scope-max-length` | Scope has at most N characters | — | — |
 | `scope-delimiter-style` | Characters between multiple scopes are in the allowed list (default `/`, `\`, `,`) | — | — |
