@@ -152,10 +152,15 @@ def lint(message, types=DEFAULT_TYPES, trailer=None, human=False):
         if not co_authors:
             errors.append(("co-author", "AI-assisted commits need the repository's Co-Authored-By trailer"))
         for line in co_authors:
-            if trailer and line != trailer:
-                errors.append(("co-author-pattern", "use the repository trailer exactly: {}".format(trailer)))
-            elif not trailer and not CO_AUTHOR.match(line):
+            if not CO_AUTHOR.match(line):
                 errors.append(("co-author-pattern", "use 'Co-Authored-By: Name <email>' with this exact key casing"))
+                break
+        if trailer and co_authors:
+            email = trailer.rsplit("<", 1)[-1]
+            if trailer not in co_authors:
+                errors.append(("co-author-pattern", "use the repository trailer exactly: {}".format(trailer)))
+            elif any(line != trailer and line.endswith("<" + email) for line in co_authors):
+                errors.append(("co-author-pattern", "the agent appears under a second, varied trailer"))
         if co_authors and keys and keys[-1] != "Co-Authored-By":
             warnings.append(("co-author-last", "put Co-Authored-By as the last trailer"))
     return errors, warnings

@@ -95,6 +95,14 @@ class InvalidMessages(unittest.TestCase):
         other = "Co-authored-by: Claude Code <noreply@anthropic.com>"
         self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", other))))
 
+    def test_human_pair_and_agent_both_allowed(self):
+        human = "Co-Authored-By: Jordan Lee <jordan.lee@example.com>"
+        self.assertEqual(rules(message(trailers=("Breaking: none", human, TRAILER))), set())
+
+    def test_varied_agent_trailer_alongside_canonical_is_rejected(self):
+        variant = "Co-Authored-By: Claude <noreply@anthropic.com>"
+        self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", variant, TRAILER))))
+
     def test_human_mode_skips_co_author(self):
         self.assertEqual(rules(message(trailers=("Breaking: none",)), human=True), set())
 
