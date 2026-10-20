@@ -6,13 +6,13 @@
 
 An agent skill that turns the Conventional Commits spec into commit messages people want to read and release tools can trust.
 
-[![Agent Skill](https://img.shields.io/badge/Agent-Skill-334155?style=flat-square)](../SKILL.md)
+[![Agent Skill](https://img.shields.io/badge/Agent-Skill-334155?style=flat-square)](SKILL.md)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-FE5196?style=flat-square&logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org/en/v1.0.0/)
-[![commitlint](https://img.shields.io/badge/commitlint-21.x-2563EB?style=flat-square)](../references/rules-reference.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-2563EB?style=flat-square)](../LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-334155?style=flat-square)](CONTRIBUTING.md)
+[![commitlint](https://img.shields.io/badge/commitlint-21.x-2563EB?style=flat-square)](references/rules-reference.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2563EB?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-334155?style=flat-square)](.github/CONTRIBUTING.md)
 
-[Explore the skill](../SKILL.md) · [Commit protocol](../references/agent-commit-protocol.md) · [Examples](../references/example-library.md) · [Contribute](CONTRIBUTING.md) · [Get help](SUPPORT.md)
+[Explore the skill](SKILL.md) · [Commit protocol](references/agent-commit-protocol.md) · [Examples](references/example-library.md) · [Contribute](.github/CONTRIBUTING.md) · [Get help](.github/SUPPORT.md)
 
 </div>
 
@@ -71,7 +71,7 @@ The format rules in this skill were checked against real tooling, not copied fro
 
 ## 📥 Get started
 
-Keep [`SKILL.md`](../SKILL.md), `references/`, `assets/`, and `scripts/` together so the skill can resolve its resources.
+Keep [`SKILL.md`](SKILL.md), `references/`, `assets/`, and `scripts/` together so the skill can resolve its resources.
 
 ### Skills CLI: any supported agent
 
@@ -122,23 +122,23 @@ See Claude's [skill upload instructions](https://support.claude.com/en/articles/
 
 | Reference | Covers |
 | :--- | :--- |
-| [Agent commit protocol](../references/agent-commit-protocol.md) | The Complete Commit Contract, field lengths, co-authorship, PRs, the pre-commit checklist |
-| [Atomic commits](../references/atomic-commits.md) | Smallest logical change, splitting seams, planning commit sequences |
-| [Type and scope catalog](../references/type-scope-catalog.md) | The eleven standard types, the decision procedure, scope selection |
-| [Breaking changes](../references/breaking-changes.md) | Detection, declaration, format traps, migration notes |
-| [Example library](../references/example-library.md) | 22 complete messages and a before-and-after table |
-| [Rules reference](../references/rules-reference.md) | All 38 commitlint rules with defaults and contract settings |
-| [Config guide](../references/config-guide.md) | Discovering conventions, commitlint files, precedence |
-| [Monorepo patterns](../references/monorepo-patterns.md) | Package scopes, cross-package changes, workspace presets |
-| [Emoji reference](../references/emoji-reference.md) | Safe gitmoji placement and the type-to-emoji mapping |
-| [Integration examples](../references/integration-examples.md) | Husky, Lefthook, pre-commit, GitHub Actions, release tools |
+| [Agent commit protocol](references/agent-commit-protocol.md) | The Complete Commit Contract, field lengths, co-authorship, PRs, the pre-commit checklist |
+| [Atomic commits](references/atomic-commits.md) | Smallest logical change, splitting seams, planning commit sequences |
+| [Type and scope catalog](references/type-scope-catalog.md) | The eleven standard types, the decision procedure, scope selection |
+| [Breaking changes](references/breaking-changes.md) | Detection, declaration, format traps, migration notes |
+| [Example library](references/example-library.md) | 22 complete messages and a before-and-after table |
+| [Rules reference](references/rules-reference.md) | All 38 commitlint rules with defaults and contract settings |
+| [Config guide](references/config-guide.md) | Discovering conventions, commitlint files, precedence |
+| [Monorepo patterns](references/monorepo-patterns.md) | Package scopes, cross-package changes, workspace presets |
+| [Emoji reference](references/emoji-reference.md) | Safe gitmoji placement and the type-to-emoji mapping |
+| [Integration examples](references/integration-examples.md) | Husky, Lefthook, pre-commit, GitHub Actions, release tools |
 
 ### Assets and scripts
 
-- **[`commitlint.config.mjs`](../assets/commitlint.config.mjs)**: enforces the contract, including the breaking declaration and the exact co-author line.
-- **[`commit-template.txt`](../assets/commit-template.txt)**: shows the contract in the editor via `git config commit.template`.
-- **[`lint-commit.py`](../scripts/lint-commit.py)**: offline checker for a message, stdin, or a revision range. Python 3.9+, no dependencies.
-- **[`validate-skill.py`](../scripts/validate-skill.py)**: structural check of this package.
+- **[`commitlint.config.mjs`](assets/commitlint.config.mjs)**: enforces the contract, including the breaking declaration and the exact co-author line.
+- **[`commit-template.txt`](assets/commit-template.txt)**: shows the contract in the editor via `git config commit.template`.
+- **[`lint-commit.py`](scripts/lint-commit.py)**: offline checker for a message, stdin, or a revision range. Python 3.9+, no dependencies.
+- **[`validate-skill.py`](scripts/validate-skill.py)**: structural check of this package.
 
 ```text
 conventional-commits-framework/
@@ -146,7 +146,8 @@ conventional-commits-framework/
 ├── references/       # Ten focused guides, loaded on demand
 ├── assets/           # commitlint config and git commit template
 ├── scripts/          # Contract checker, package validator, tests
-├── .github/          # README, contributing, support, templates, CI
+├── .github/          # Contributing, support, templates, CI
+├── README.md         # Project overview
 └── LICENSE           # MIT License
 ```
 
@@ -166,8 +167,8 @@ This repository follows its own rules: every commit in its history passes `scrip
 
 ## 🤝 Contributing and support
 
-Improvements are welcome, especially real commit-message failures the skill does not yet prevent. Start with the [contribution guide](CONTRIBUTING.md), use the [issue forms](https://github.com/YourAKShaw/conventional-commits-framework/issues/new/choose), or read the [support guide](SUPPORT.md).
+Improvements are welcome, especially real commit-message failures the skill does not yet prevent. Start with the [contribution guide](.github/CONTRIBUTING.md), use the [issue forms](https://github.com/YourAKShaw/conventional-commits-framework/issues/new/choose), or read the [support guide](.github/SUPPORT.md).
 
 ## License
 
-Distributed under the **MIT License**. See [LICENSE](../LICENSE).
+Distributed under the **MIT License**. See [LICENSE](LICENSE).
