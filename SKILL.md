@@ -130,3 +130,15 @@ Load only what the task needs.
 - [`assets/commitlint.config.mjs`](assets/commitlint.config.mjs): commitlint config that enforces the contract, including a breaking declaration and the exact co-author line.
 - [`assets/commit-template.txt`](assets/commit-template.txt): a `git config commit.template` that shows the contract in the editor.
 - [`scripts/lint-commit.py`](scripts/lint-commit.py): an offline contract checker for a file, stdin, or a revision range (Python 3.9+, standard library only). Tests: [`scripts/test_lint_commit.py`](scripts/test_lint_commit.py).
+
+## 🛠️ Maintaining this skill
+
+Keep the contract identical across this file, the [protocol](references/agent-commit-protocol.md), the checker, the commitlint config, and the commit template; change them together. Validate the package offline from any directory:
+
+```sh
+python3 /path/to/conventional-commits-framework/scripts/validate-skill.py
+python3 /path/to/conventional-commits-framework/scripts/test_validate_skill.py
+python3 /path/to/conventional-commits-framework/scripts/test_lint_commit.py
+```
+
+The [package validator](scripts/validate-skill.py) checks the manifest, required files, local links and anchors, and that every resource is reachable from this file. Wrappers: [POSIX](scripts/validate-skill.sh) and [PowerShell](scripts/validate-skill.ps1); regression suite: [validator tests](scripts/test_validate_skill.py). It does not evaluate agent behavior. Package format: [Agent Skills specification](https://agentskills.io/specification).
