@@ -1,1 +1,27 @@
 resources/
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python caches used by the package scripts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node tooling used to try the commitlint asset locally
+node_modules/
+
+# Temporary archives and patches
+*.tmp
+*.bak
+*.orig
+*.rej
+*.zip
