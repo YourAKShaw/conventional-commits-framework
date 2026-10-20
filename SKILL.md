@@ -9,12 +9,12 @@ description: Write, validate, and fix Conventional Commits with every field fill
 
 Use this skill whenever you write, review, or plan commits. It turns the [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) spec into four non-negotiable rules for AI agents, backed by references, ready-made assets, and an offline checker.
 
-| | Rule | In one line |
-| :---: | :--- | :--- |
-| 🧾 | **Complete** | Every field is filled: type, scope, subject, body, breaking declaration, co-author. Nothing is ever blank. |
-| 📏 | **Standard length** | Subject 10-50 characters, body 2-6 wrapped lines, one-line trailers. Never a stub, never an essay. |
-| 🤝 | **Co-authored** | The user is the author; the agent is credited by one fixed `Co-Authored-By` trailer that never varies in a repository. |
-| ⚛️ | **Atomic** | One logical change per commit. Large work becomes a planned sequence of small commits. |
+| Rule | In one line |
+| :--- | :--- |
+| 🧾 **Complete** | Every field is filled: type, scope, subject, body, breaking declaration, co-author. Nothing is ever blank. |
+| 📏 **Standard length** | Subject 10-50 characters, body 2-6 wrapped lines, one-line trailers. Never a stub, never an essay. |
+| 🤝 **Co-authored** | The user is the author; the agent is credited by one fixed `Co-Authored-By` trailer that never varies in a repository. |
+| ⚛️ **Atomic** | One logical change per commit. Large work becomes a planned sequence of small commits. |
 
 ## ✍️ The contract at a glance
 
