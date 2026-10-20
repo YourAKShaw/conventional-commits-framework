@@ -1,1 +1,0 @@
-# conventional-commits-framework
