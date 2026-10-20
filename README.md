@@ -2,6 +2,8 @@
 
 # 📜 Conventional Commits Framework
 
+[![HOL Guard](https://img.shields.io/endpoint?url=https%3A%2F%2Fhol.org%2Fapi%2Fregistry%2Fbadges%2Fplugin%3Fslug%3Dyourakshaw%252Fconventional-commits-framework%26metric%3Dtrust)](https://hol.org/registry/plugins/yourakshaw%2Fconventional-commits-framework)
+
 **Complete, atomic, co-authored commits from every AI agent, every time.**
 
 An agent skill that turns the Conventional Commits spec into commit messages people want to read and release tools can trust.
