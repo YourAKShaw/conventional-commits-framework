@@ -1,0 +1,24 @@
+
+
+# ── Complete Commit Contract ─────────────────────────────────────────
+# Every field below is required. Lines starting with # are removed.
+#
+# Header:  type(scope): subject
+#   type     feat fix docs style refactor perf test build ci chore revert
+#   scope    the area that changed: auth, api, deps, readme, ...
+#   subject  lower-case imperative, 10-50 chars, no trailing period
+#            (whole header 72 chars max; add ! after scope if breaking)
+#
+# Body (after one blank line): 2-6 lines wrapped at 72 characters.
+#   Say what changed and why it was needed. Do not repeat the subject.
+#
+# Trailers (after one blank line), in this order:
+#   Breaking: none
+#     or, for a breaking change (header must also carry !):
+#   BREAKING-CHANGE: what breaks and how to migrate, continuation
+#     lines indented by two spaces
+#   Refs: #123                     (when an issue or ticket exists)
+#   Co-Authored-By: <the repository's one fixed agent trailer>
+#
+# One logical change per commit. If the subject needs "and", split it.
+# ─────────────────────────────────────────────────────────────────────
