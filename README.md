@@ -148,6 +148,7 @@ conventional-commits-framework/
 ├── scripts/          # Contract checker, package validator, tests
 ├── .github/          # Contributing, support, templates, CI
 ├── README.md         # Project overview
+├── SECURITY.md       # Supported versions and vulnerability reporting
 └── LICENSE           # MIT License
 ```
 
@@ -167,7 +168,7 @@ This repository follows its own rules: every commit in its history passes `scrip
 
 ## 🤝 Contributing and support
 
-Improvements are welcome, especially real commit-message failures the skill does not yet prevent. Start with the [contribution guide](.github/CONTRIBUTING.md), use the [issue forms](https://github.com/YourAKShaw/conventional-commits-framework/issues/new/choose), or read the [support guide](.github/SUPPORT.md).
+Improvements are welcome, especially real commit-message failures the skill does not yet prevent. Start with the [contribution guide](.github/CONTRIBUTING.md), use the [issue forms](https://github.com/YourAKShaw/conventional-commits-framework/issues/new/choose), read the [support guide](.github/SUPPORT.md), or report vulnerabilities privately as described in the [security policy](SECURITY.md).
 
 ## License
 
