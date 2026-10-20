@@ -106,6 +106,16 @@ class InvalidMessages(unittest.TestCase):
     def test_human_mode_skips_co_author(self):
         self.assertEqual(rules(message(trailers=("Breaking: none",)), human=True), set())
 
+    def test_human_mode_allows_human_pair_without_agent(self):
+        human = "Co-Authored-By: Jordan Lee <jordan.lee@example.com>"
+        self.assertEqual(rules(message(trailers=("Breaking: none", human)), human=True), set())
+
+    def test_human_mode_still_rejects_varied_agent_trailer(self):
+        variant = "Co-Authored-By: Claude <noreply@anthropic.com>"
+        self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", variant)), human=True))
+        lower = "Co-authored-by: Claude Code <noreply@anthropic.com>"
+        self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", lower)), human=True))
+
     def test_missing_trailer_block(self):
         self.assertIn("footer-missing", rules(message(trailers=())))
 

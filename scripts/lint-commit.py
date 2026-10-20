@@ -8,7 +8,7 @@ Usage:
 
 Options:
   --trailer LINE   exact co-author trailer the repository uses
-  --human          skip the co-author requirement for human-only commits
+  --human          do not require a co-author (any present must still match)
   --types LIST     comma-separated allowed types (default: commitlint's 11)
   --json           print machine-readable results
 
@@ -147,21 +147,21 @@ def lint(message, types=DEFAULT_TYPES, trailer=None, human=False):
     if bool(bang) != bool(breaking):
         errors.append(("breaking-change-exclamation-mark", "use '!' in the header if and only if a BREAKING-CHANGE trailer exists"))
 
-    if not human:
-        co_authors = [line for line in footer if line.lower().startswith("co-authored-by:")]
-        if not co_authors:
-            errors.append(("co-author", "AI-assisted commits need the repository's Co-Authored-By trailer"))
+    co_authors = [line for line in footer if line.lower().startswith("co-authored-by:")]
+    if not co_authors and not human:
+        errors.append(("co-author", "AI-assisted commits need the repository's Co-Authored-By trailer"))
+    if co_authors:
         for line in co_authors:
             if not CO_AUTHOR.match(line):
                 errors.append(("co-author-pattern", "use 'Co-Authored-By: Name <email>' with this exact key casing"))
                 break
-        if trailer and co_authors:
+        if trailer:
             email = trailer.rsplit("<", 1)[-1]
-            if trailer not in co_authors:
+            if any(line != trailer and line.endswith("<" + email) for line in co_authors):
+                errors.append(("co-author-pattern", "the agent appears under a varied trailer; use: {}".format(trailer)))
+            elif trailer not in co_authors and not human:
                 errors.append(("co-author-pattern", "use the repository trailer exactly: {}".format(trailer)))
-            elif any(line != trailer and line.endswith("<" + email) for line in co_authors):
-                errors.append(("co-author-pattern", "the agent appears under a second, varied trailer"))
-        if co_authors and keys and keys[-1] != "Co-Authored-By":
+        if keys and keys[-1] != "Co-Authored-By":
             warnings.append(("co-author-last", "put Co-Authored-By as the last trailer"))
     return errors, warnings
 
@@ -199,7 +199,7 @@ def main(argv=None):
     parser.add_argument("source", nargs="?", help="message file, or - for stdin")
     parser.add_argument("--range", dest="rev_range", help="git revision range to check, e.g. main..HEAD")
     parser.add_argument("--trailer", help="exact Co-Authored-By line the repository uses")
-    parser.add_argument("--human", action="store_true", help="do not require a co-author trailer")
+    parser.add_argument("--human", action="store_true", help="do not require a co-author trailer; any present must still match")
     parser.add_argument("--types", help="comma-separated allowed types")
     parser.add_argument("--json", action="store_true", help="print JSON")
     args = parser.parse_args(argv)
