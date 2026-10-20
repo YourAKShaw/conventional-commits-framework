@@ -1,0 +1,43 @@
+name: Bug report
+description: Report incorrect guidance, a wrong checker result, or a failing script.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues before submitting. Use a minimal, sanitized example; remove secrets, private code, and personal data.
+  - type: input
+    id: affected-files
+    attributes:
+      label: Affected files
+      placeholder: scripts/lint-commit.py or references/breaking-changes.md
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: Commit message or input
+      description: Paste the exact message, command, or prompt that shows the problem.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and impact
+      description: Include tool output. For agent behavior, separate the skill's instructions from the host or model's behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Version and environment
+      description: Commit or release of this skill, OS, Python or Node.js version, commitlint version, and agent host and model if relevant.
+    validations:
+      required: true

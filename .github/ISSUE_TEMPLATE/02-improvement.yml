@@ -1,0 +1,33 @@
+name: Improvement proposal
+description: Propose a change to the contract, references, assets, or scripts.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Search existing issues first. Start from a concrete commit-message problem and keep examples free of sensitive information.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or unmet use case
+      description: Which commits go wrong today, and for whom?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Identify affected files and the intended behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and trade-offs
+      description: Consider tool compatibility, added rules, portability, and token cost.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: How to verify the improvement
+      description: Give example messages and observable success criteria. Do not invent evaluation results.
+    validations:
+      required: true

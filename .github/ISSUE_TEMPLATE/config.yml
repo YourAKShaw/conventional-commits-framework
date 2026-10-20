@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Usage and support guidance
+    url: https://github.com/YourAKShaw/conventional-commits-framework/blob/HEAD/.github/SUPPORT.md
+    about: Find the starting point for using the skill and asking questions.
