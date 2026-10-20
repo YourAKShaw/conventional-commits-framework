@@ -20,11 +20,11 @@ Use this skill whenever you write, review, or plan commits. It turns the [Conven
 
 ```text
 feat(auth): add passkey sign-in for returning users
-
+ 
 Password resets were the top support request last quarter. Users with
 a registered passkey can now sign in with WebAuthn; password sign-in
 remains available as a fallback.
-
+ 
 Breaking: none
 Refs: #214
 Co-Authored-By: Claude Code <noreply@anthropic.com>
@@ -62,9 +62,9 @@ Full policy: [agent commit protocol](references/agent-commit-protocol.md).
    ```sh
    git commit -F - <<'EOF'
    <header>
-
+ 
    <body>
-
+ 
    Breaking: none
    Co-Authored-By: <recorded trailer>
    EOF
