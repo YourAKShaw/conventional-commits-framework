@@ -30,16 +30,21 @@ Refs: #214
 Co-Authored-By: Claude Code <noreply@anthropic.com>
 ```
 
-| Part | Standard |
-| :--- | :--- |
-| `type` | From the repository's list, else `feat fix perf refactor style test docs build ci chore revert` |
-| `(scope)` | **Always present.** The module, package, or area changed, in lower case |
-| `subject` | Lower-case imperative, 10-50 characters, no period; whole header ≤ 72 |
-| body | After a blank line: why the change was needed, then what changed; 2-6 lines wrapped at 72 |
-| `Breaking: none` | Exactly this line, unless the change is breaking |
-| `BREAKING-CHANGE:` | For breaking changes only, with `!` in the header: what breaks and how to migrate |
-| `Refs:` | Real issue, ticket, or PR identifiers whenever they exist; never invented |
-| `Co-Authored-By:` | The repository's one recorded agent trailer, always last |
+<table>
+<thead>
+<tr><th>Part</th><th>Standard</th></tr>
+</thead>
+<tbody>
+<tr><td><code>type</code></td><td>From the repository's list, else <code>feat fix perf refactor style test docs build ci chore revert</code></td></tr>
+<tr><td><code>(scope)</code></td><td><strong>Always present.</strong> The module, package, or area changed, in lower case</td></tr>
+<tr><td><code>subject</code></td><td>Lower-case imperative, 10-50 characters, no period; whole header ≤ 72</td></tr>
+<tr><td>body</td><td>After a blank line: why the change was needed, then what changed; 2-6 lines wrapped at 72</td></tr>
+<tr><td><code>Breaking: none</code></td><td>Exactly this line, unless the change is breaking</td></tr>
+<tr><td><code>BREAKING-CHANGE:</code></td><td>For breaking changes only, with <code>!</code> in the header: what breaks and how to migrate</td></tr>
+<tr><td><code>Refs:</code></td><td>Real issue, ticket, or PR identifiers whenever they exist; never invented</td></tr>
+<tr><td><code>Co-Authored-By:</code></td><td>The repository's one recorded agent trailer, always last</td></tr>
+</tbody>
+</table>
 
 Full policy: [agent commit protocol](references/agent-commit-protocol.md).
 
