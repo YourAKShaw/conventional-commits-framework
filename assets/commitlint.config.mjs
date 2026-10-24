@@ -1,8 +1,11 @@
 // commitlint configuration for the Complete Commit Contract.
 // Install: npm i -D @commitlint/cli @commitlint/config-conventional
-// Set CO_AUTHOR once to the trailer your repository uses, then never change it.
+// Keep accepted agent trailers in sync with the repository's documented policy.
 
-const CO_AUTHOR = 'Co-Authored-By: Claude Code <noreply@anthropic.com>';
+const CO_AUTHORS = [
+  'Co-Authored-By: Claude Code <noreply@anthropic.com>',
+  'Co-Authored-By: ChatGPT <noreply@openai.com>',
+];
 
 const lines = (raw) => (raw || '').split('\n').map((line) => line.trimEnd());
 
@@ -26,15 +29,15 @@ export default {
           !lines(raw).some((line) => line.startsWith('BREAKING CHANGE:')),
           'write BREAKING-CHANGE (hyphen); the spaced form hides the git trailer block',
         ],
-        'co-author-exact': ({ raw }, when = 'always', expected = CO_AUTHOR) => {
+        'co-author-exact': ({ raw }, when = 'always', expected = CO_AUTHORS) => {
           if (when === 'never') return [true];
           const coAuthors = lines(raw).filter((line) => /^co-authored-by:/i.test(line));
-          const email = expected.slice(expected.lastIndexOf('<'));
-          const varied = coAuthors.some((line) => line !== expected && line.endsWith(email));
+          const emails = expected.map((line) => line.slice(line.lastIndexOf('<')));
+          const varied = coAuthors.some((line) => !expected.includes(line) && emails.some((email) => line.endsWith(email)));
           const wrongKey = coAuthors.some((line) => !line.startsWith('Co-Authored-By: '));
           return [
-            coAuthors.includes(expected) && !varied && !wrongKey,
-            `AI-assisted commits need exactly one agent trailer: ${expected}`,
+            coAuthors.some((line) => expected.includes(line)) && !varied && !wrongKey,
+            `AI-assisted commits need one accepted agent trailer: ${expected.join(' or ')}`,
           ];
         },
       },
@@ -54,6 +57,6 @@ export default {
     'breaking-declared': [2, 'always'],
     'breaking-token': [2, 'always'],
     // Set to [0] for repositories or commits with no AI involvement.
-    'co-author-exact': [2, 'always', CO_AUTHOR],
+    'co-author-exact': [2, 'always', CO_AUTHORS],
   },
 };

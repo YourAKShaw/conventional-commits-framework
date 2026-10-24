@@ -48,23 +48,26 @@ what it changes.
 
 Breaking: none
 Co-Authored-By: Claude Code <noreply@anthropic.com>
+or
+Co-Authored-By: ChatGPT <noreply@openai.com>
 ```
 
 - **Emoji:** one gitmoji shortcode after the colon, matching the type ([emoji reference](../references/emoji-reference.md)).
-- **Agent trailer:** commits written with an AI agent end with exactly `Co-Authored-By: Claude Code <noreply@anthropic.com>`. This line is the repository's recorded trailer; do not vary its casing, name, or email. Human-only commits omit it. Other agents add their own documented trailer, recorded here first.
+- **Agent trailer:** commits written with an AI agent end with exactly one accepted line: `Co-Authored-By: Claude Code <noreply@anthropic.com>` or `Co-Authored-By: ChatGPT <noreply@openai.com>`. Do not vary the casing, name, or email. Human-only commits omit it.
 - **Size:** one logical change per commit ([atomic commits](../references/atomic-commits.md)).
 
 Check your commits before pushing:
 
 ```sh
 python3 scripts/lint-commit.py --range origin/main..HEAD \
-  --trailer "Co-Authored-By: Claude Code <noreply@anthropic.com>"
+  --trailer "Co-Authored-By: Claude Code <noreply@anthropic.com>" \
+  --trailer "Co-Authored-By: ChatGPT <noreply@openai.com>"
 ```
 
 Add `--human` for commits without AI involvement. To check each commit as you write it:
 
 ```sh
-printf '#!/bin/sh\nexec python3 scripts/lint-commit.py --trailer "Co-Authored-By: Claude Code <noreply@anthropic.com>" "$1"\n' > .git/hooks/commit-msg
+printf '#!/bin/sh\nexec python3 scripts/lint-commit.py --trailer "Co-Authored-By: Claude Code <noreply@anthropic.com>" --trailer "Co-Authored-By: ChatGPT <noreply@openai.com>" "$1"\n' > .git/hooks/commit-msg
 chmod +x .git/hooks/commit-msg
 ```
 

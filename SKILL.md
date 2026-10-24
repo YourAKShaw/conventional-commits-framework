@@ -30,21 +30,16 @@ Refs: #214
 Co-Authored-By: Claude Code <noreply@anthropic.com>
 ```
 
-<table>
-<thead>
-<tr><th>Part</th><th>Standard</th></tr>
-</thead>
-<tbody>
-<tr><td><code>type</code></td><td>From the repository's list, else <code>feat fix perf refactor style test docs build ci chore revert</code></td></tr>
-<tr><td><code>(scope)</code></td><td><strong>Always present.</strong> The module, package, or area changed, in lower case</td></tr>
-<tr><td><code>subject</code></td><td>Lower-case imperative, 10-50 characters, no period; whole header ≤ 72</td></tr>
-<tr><td>body</td><td>After a blank line: why the change was needed, then what changed; 2-6 lines wrapped at 72</td></tr>
-<tr><td><code>Breaking: none</code></td><td>Exactly this line, unless the change is breaking</td></tr>
-<tr><td><code>BREAKING-CHANGE:</code></td><td>For breaking changes only, with <code>!</code> in the header: what breaks and how to migrate</td></tr>
-<tr><td><code>Refs:</code></td><td>Real issue, ticket, or PR identifiers whenever they exist; never invented</td></tr>
-<tr><td><code>Co-Authored-By:</code></td><td>The repository's one recorded agent trailer, always last</td></tr>
-</tbody>
-</table>
+| Part | Standard |
+| :--- | :--- |
+| `type` | Use the repository's list; otherwise choose `feat fix perf refactor style test docs build ci chore revert`. |
+| `(scope)` | **Always include it.** Name the changed module, package, or area in lower case. |
+| `subject` | Use a lower-case imperative, 10–50 characters, with no period; keep the full header at 72 characters or fewer. |
+| `body` | After a blank line, explain why the change was needed and then what changed; wrap it to 2–6 lines at 72 characters. |
+| `Breaking: none` | Use exactly this line unless the change is breaking. |
+| `BREAKING-CHANGE:` | For breaking changes only, pair it with `!` in the header and explain what breaks and how to migrate. |
+| `Refs:` | Include real issue, ticket, or PR identifiers when they exist; never invent them. |
+| `Co-Authored-By:` | Put the repository's recorded agent trailer last. |
 
 Full policy: [agent commit protocol](references/agent-commit-protocol.md).
 

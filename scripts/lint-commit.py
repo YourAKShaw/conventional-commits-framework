@@ -7,7 +7,7 @@ Usage:
   python3 scripts/lint-commit.py --range origin/main..HEAD
 
 Options:
-  --trailer LINE   exact co-author trailer the repository uses
+  --trailer LINE   accepted co-author trailer; may be supplied more than once
   --human          do not require a co-author (any present must still match)
   --types LIST     comma-separated allowed types (default: commitlint's 11)
   --json           print machine-readable results
@@ -155,12 +155,13 @@ def lint(message, types=DEFAULT_TYPES, trailer=None, human=False):
             if not CO_AUTHOR.match(line):
                 errors.append(("co-author-pattern", "use 'Co-Authored-By: Name <email>' with this exact key casing"))
                 break
-        if trailer:
-            email = trailer.rsplit("<", 1)[-1]
-            if any(line != trailer and line.endswith("<" + email) for line in co_authors):
-                errors.append(("co-author-pattern", "the agent appears under a varied trailer; use: {}".format(trailer)))
-            elif trailer not in co_authors and not human:
-                errors.append(("co-author-pattern", "use the repository trailer exactly: {}".format(trailer)))
+        accepted = [trailer] if isinstance(trailer, str) else list(trailer or [])
+        if accepted:
+            agent_authors = [line for line in co_authors if line in accepted or "<" in line]
+            if any(line not in accepted and line.rsplit("<", 1)[-1] in {item.rsplit("<", 1)[-1] for item in accepted} for line in agent_authors):
+                errors.append(("co-author-pattern", "the agent appears under a varied trailer; use one of: {}".format("; ".join(accepted))))
+            elif not any(line in accepted for line in co_authors) and not human:
+                errors.append(("co-author-pattern", "use one of the repository trailers exactly: {}".format("; ".join(accepted))))
         if keys and keys[-1] != "Co-Authored-By":
             warnings.append(("co-author-last", "put Co-Authored-By as the last trailer"))
     return errors, warnings
@@ -198,7 +199,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Check commit messages against the Complete Commit Contract.")
     parser.add_argument("source", nargs="?", help="message file, or - for stdin")
     parser.add_argument("--range", dest="rev_range", help="git revision range to check, e.g. main..HEAD")
-    parser.add_argument("--trailer", help="exact Co-Authored-By line the repository uses")
+    parser.add_argument("--trailer", action="append", help="accepted Co-Authored-By line; repeat for additional agent identities")
     parser.add_argument("--human", action="store_true", help="do not require a co-author trailer; any present must still match")
     parser.add_argument("--types", help="comma-separated allowed types")
     parser.add_argument("--json", action="store_true", help="print JSON")

@@ -12,6 +12,7 @@ lint_commit = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(lint_commit)
 
 TRAILER = "Co-Authored-By: Claude Code <noreply@anthropic.com>"
+CHATGPT_TRAILER = "Co-Authored-By: ChatGPT <noreply@openai.com>"
 BODY = "Explain the reason for the change in one or two full sentences."
 
 
@@ -25,13 +26,16 @@ def message(header="feat(auth): add passkey sign-in flow", body=BODY, trailers=(
 
 
 def rules(text, **kwargs):
-    errors, _ = lint_commit.lint(text, trailer=kwargs.pop("trailer", TRAILER), **kwargs)
+    errors, _ = lint_commit.lint(text, trailer=kwargs.pop("trailer", (TRAILER, CHATGPT_TRAILER)), **kwargs)
     return {rule for rule, _ in errors}
 
 
 class ValidMessages(unittest.TestCase):
     def test_complete_message_passes(self):
         self.assertEqual(rules(message()), set())
+
+    def test_chatgpt_agent_trailer_passes(self):
+        self.assertEqual(rules(message(trailers=("Breaking: none", CHATGPT_TRAILER))), set())
 
     def test_breaking_change_with_continuation_passes(self):
         text = message(
@@ -102,6 +106,10 @@ class InvalidMessages(unittest.TestCase):
     def test_varied_agent_trailer_alongside_canonical_is_rejected(self):
         variant = "Co-Authored-By: Claude <noreply@anthropic.com>"
         self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", variant, TRAILER))))
+
+    def test_unknown_agent_trailer_is_rejected(self):
+        other = "Co-Authored-By: Other Agent <other@example.com>"
+        self.assertIn("co-author-pattern", rules(message(trailers=("Breaking: none", other))))
 
     def test_human_mode_skips_co_author(self):
         self.assertEqual(rules(message(trailers=("Breaking: none",)), human=True), set())

@@ -42,7 +42,8 @@ jobs:
         # Dependabot cannot add the Breaking or Co-Authored-By trailers.
         if: github.event.pull_request.user.login != 'dependabot[bot]'
         env:
-          TRAILER: "Co-Authored-By: Claude Code <noreply@anthropic.com>"
+          CLAUDE_TRAILER: "Co-Authored-By: Claude Code <noreply@anthropic.com>"
+          CHATGPT_TRAILER: "Co-Authored-By: ChatGPT <noreply@openai.com>"
           BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
         run: |
@@ -50,4 +51,7 @@ jobs:
             echo "No previous commit to compare against; skipping."
             exit 0
           fi
-          python3 scripts/lint-commit.py --human --trailer "$TRAILER" --range "$BASE..$HEAD"
+          python3 scripts/lint-commit.py --human \
+            --trailer "$CLAUDE_TRAILER" \
+            --trailer "$CHATGPT_TRAILER" \
+            --range "$BASE..$HEAD"
