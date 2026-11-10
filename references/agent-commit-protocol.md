@@ -1,6 +1,6 @@
 # Agent commit protocol
 
-This is the policy every agent follows when it writes a commit. It has three parts: the **Complete Commit Contract** (every field filled, at a standard length), **co-authorship** (one fixed trailer per repository), and the **pre-commit checklist**. Atomic commit sizing is covered in [atomic commits](atomic-commits.md).
+This is the policy every agent follows when it writes a commit. It has three parts: the **Complete Commit Contract** (every field filled, at a standard length), **co-authorship** (one verified trailer per contributing agent), and the **pre-commit checklist**. Atomic commit sizing is covered in [atomic commits](atomic-commits.md).
 
 ## The Complete Commit Contract
 
@@ -14,7 +14,7 @@ Every commit an agent writes contains all of these parts. None is optional, and 
 Breaking: none          ─┐ exactly one of these two
 BREAKING-CHANGE: <impact and migration>
 Refs: #123               ← when an issue, ticket, or PR exists
-Co-Authored-By: <the repository's fixed agent identity>
+Co-Authored-By: <the active agent’s verified identity>
 ```
 
 ### Field-by-field standard
@@ -29,7 +29,7 @@ The lengths below reflect what Git, GitHub, the Linux kernel and Git project gui
 | **body** | Why the change was needed, then what changed at a high level | **2-6 lines**, wrapped at 72, ≥ 40 chars | Repeating the subject | > 25 lines: split the commit or move to PR |
 | **Breaking** | `Breaking: none`, or `BREAKING-CHANGE:` with impact and migration | 1 line; breaking detail 1-4 lines | `BREAKING-CHANGE: yes` | A migration guide (link to it instead) |
 | **Refs** | Issue, ticket, or PR identifiers that exist | 1 line | — | Prose |
-| **Co-Authored-By** | The repository's fixed trailer | 1 line, never varied | — | — |
+| **Co-Authored-By** | The active agent's verified trailer | 1 line per agent | — | — |
 
 ### Writing each field well
 
@@ -55,24 +55,16 @@ When an agent writes or substantially shapes a commit for a user, the commit rec
 1. **The user** as author and committer, through their own `git config user.name` and `user.email`. The agent never overrides `--author`, `GIT_AUTHOR_*`, or `GIT_COMMITTER_*`, and never commits under its own identity.
 2. **The agent** through one `Co-Authored-By` trailer, which GitHub and GitLab display as a co-author.
 
-### Choose the trailer once, then never vary it
+### Identify the active agent on every skill load
 
-The pattern is a repository-level decision, like the license. Follow this order:
+Use the current runtime or session to identify the agent product actually performing the work, such as Claude Code, Codex, Google Antigravity, Grok Build, or another agent. Verify its attribution name and email using authoritative runtime information or vendor documentation. Do not assume the underlying model identifies the product, copy a different agent's trailer from history or project instructions, or invent an address. If the identity or email cannot be verified, ask the user before adding attribution.
 
-1. **Reuse what exists.** Inspect recent history before the first commit:
-   ```sh
-   git log -50 --format='%(trailers:key=Co-Authored-By,valueonly)' | sed '/^$/d' | sort | uniq -c
-   ```
-   If the repository's contributing guide, `AGENTS.md`, `CLAUDE.md`, or commitlint config defines the trailer, or history shows one dominant form, copy it **byte for byte**: key casing, name, and email.
-2. **Otherwise establish one.** Use `Co-Authored-By: <Agent Product Name> <documented-noreply-address>`. For Claude Code this is `Co-Authored-By: Claude Code <noreply@anthropic.com>`. Use the product name, not a model version, so the trailer stays identical when the underlying model changes. For another agent, use the noreply address its vendor documents; if none is documented, ask the user once rather than inventing an address.
-3. **Record it** in the repository's contributing guide or `AGENTS.md` (and in the commitlint `co-author-exact` rule if the project uses [the provided config](../assets/commitlint.config.mjs)) so every later session and every other agent uses the same line.
-
-The recorded repository trailer takes precedence over an agent's built-in default attribution line. Never mix `Co-Authored-By` and `Co-authored-by`, never alternate names (`Claude`, `Claude Code`, `Claude Opus`), and never add a second agent trailer for the same agent. Some tools match keys case-sensitively (commitlint's `trailer-exists` does), so a single variation breaks enforcement.
+Use `Co-Authored-By: Name <email>` for that verified agent. History may supply a consistent spelling only if it identifies the same agent and its email is verified. Agent identity does not depend on `AGENTS.md` or a contributing guide. If configured checks reject the correct identity, resolve the configuration with authorization or report the conflict; never impersonate another agent or bypass checks. Use consistent key casing.
 
 ### When there are more contributors
 
 - Pair programming with another human: add their `Co-Authored-By` line **before** the agent's line.
-- Several distinct agents genuinely contributed: one fixed trailer per agent, each recorded in the repository.
+- Several distinct agents genuinely contributed: one verified trailer per contributing agent.
 - The user wrote the change entirely and asked the agent only to commit it: the agent still did the committing work, so keep the trailer unless the user explicitly asks to omit it. Respect that request.
 - Commits created by bots (Dependabot, Renovate, release tooling) follow those tools' own formats.
 
@@ -90,7 +82,7 @@ Before every commit, the agent confirms:
 - [ ] Body explains why in 2-6 wrapped lines and does not repeat the subject.
 - [ ] Exactly one breaking declaration is present, and `!` matches it.
 - [ ] `Refs` lists real identifiers only.
-- [ ] The co-author trailer matches the repository's recorded line exactly and is last.
+- [ ] The co-author trailer matches the active agent's verified identity and is last.
 - [ ] The message passes the repository's commitlint config or `python3 scripts/lint-commit.py` from this skill.
 
 Pass the message through a file or heredoc (`git commit -F -`), not a long `-m` string, so blank lines and trailers survive shell quoting.

@@ -40,7 +40,7 @@ Each rule takes `[level, applicable, value]`: level `0` off, `1` warning, `2` er
 
 Copy [`assets/commitlint.config.mjs`](../assets/commitlint.config.mjs) to the repository root as `commitlint.config.mjs`, then:
 
-1. Set `CO_AUTHOR` to the repository's one agent trailer ([protocol](agent-commit-protocol.md#co-authorship-two-authors-one-fixed-pattern)).
+1. Set `CO_AUTHORS` to the verified trailers of agents that contribute ([protocol](agent-commit-protocol.md#identify-the-active-agent-on-every-skill-load)); update the list when another agent contributes. Never use a different agent’s identity to satisfy the check.
 2. Add `scope-enum` with the project's scopes if the list is stable.
 3. Install and test:
 

@@ -101,7 +101,7 @@ The skill's [commitlint config](../assets/commitlint.config.mjs) adds three loca
 | :--- | :--- |
 | `breaking-declared` | Exactly one of `Breaking: none` or a breaking note is present |
 | `breaking-token` | The footer uses `BREAKING-CHANGE` (hyphen), because the spaced form breaks git trailer parsing |
-| `co-author-exact` | Every `Co-Authored-By` line equals the repository's one recorded trailer |
+| `co-author-exact` | Recognizes configured agent trailers; configure each contributing agent separately |
 
 ## Validating by hand
 
@@ -114,6 +114,6 @@ When no tool is available, check in this order and report every failure with its
 5. **Body**: present after a blank line, explains why, lines wrapped (100 characters at most).
 6. **Footer**: present after a blank line; trailers are `Token: value` (`BREAKING-CHANGE` is the one token allowed in upper case).
 7. **Breaking consistency**: `!` if and only if `BREAKING-CHANGE`; otherwise `Breaking: none`.
-8. **Co-author**: matches the repository's recorded trailer exactly.
+8. **Co-author**: matches the active agent's verified identity.
 
 Distinguish **errors** (violate the spec or the project config) from **suggestions** (style improvements the config does not enforce), and do not present suggestions as violations.

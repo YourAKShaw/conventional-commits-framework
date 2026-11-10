@@ -18,7 +18,7 @@
 #   BREAKING-CHANGE: what breaks and how to migrate, continuation
 #     lines indented by two spaces
 #   Refs: #123                     (when an issue or ticket exists)
-#   Co-Authored-By: <the repository's one fixed agent trailer>
+#   Co-Authored-By: <the active agent’s verified name and email>
 #
 # One logical change per commit. If the subject needs "and", split it.
 # ─────────────────────────────────────────────────────────────────────

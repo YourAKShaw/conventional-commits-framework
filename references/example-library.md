@@ -1,6 +1,6 @@
 # Example library
 
-Every message in a `text` block on this page satisfies the [Complete Commit Contract](agent-commit-protocol.md) and passes `scripts/lint-commit.py`. They are illustrative, written for realistic situations, not copied from real projects. Adapt the trailer to the one your repository records.
+Every message in a `text` block on this page satisfies the [Complete Commit Contract](agent-commit-protocol.md) and passes `scripts/lint-commit.py`. They are illustrative, written for realistic situations, not copied from real projects. Replace the illustrative Claude trailer with the verified identity of the active agent.
 
 ## Features
 
@@ -273,5 +273,5 @@ Co-Authored-By: Claude Code <noreply@anthropic.com>
 | `feat(auth): add MFA and refactor sessions and bump deps` | Three changes in one commit | Three atomic commits: `build(deps)`, `refactor(auth)`, `feat(auth)` |
 | `feat(api): remove v1 login` with no markers | Undeclared breaking change | `feat(api)!: remove legacy v1 login endpoint` with `BREAKING-CHANGE` |
 | `docs(readme): add install steps` + `BREAKING CHANGE: none` | Triggers a major release | Same header with `Breaking: none` |
-| `fix(api): handle timeout` + `Co-authored-by: Claude` | Co-author line varies from the repository pattern | The repository's exact trailer |
+| `fix(api): handle timeout` + `Co-authored-by: Claude` | Co-author line varies from the repository pattern | The active agent's verified trailer |
 | `fix(api): resolve issue #42` | Issue number in the subject, says nothing | `fix(api): retry webhook delivery after 503 responses` + `Refs: #42` |

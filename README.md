@@ -44,7 +44,7 @@ Co-Authored-By: Claude Code <noreply@anthropic.com>
 | :---: | :--- | :--- |
 | 🧾 | **Complete** | Fills every field (type, scope, subject, body, breaking declaration, co-author) on every commit. Nothing is left blank. |
 | 📏 | **Standard length** | Writes 10-50 character subjects, 2-6 line bodies that explain *why*, and one-line trailers. No stubs, no essays. |
-| 🤝 | **Co-authored** | Keeps you as author and committer, and credits itself through one fixed `Co-Authored-By` trailer that never varies. |
+| 🤝 | **Co-authored** | Keeps you as author and committer, and credits the active agent through its verified `Co-Authored-By` trailer. |
 | ⚛️ | **Atomic** | Plans large work as a sequence of small commits, each one logical change that builds, reverts, and changelogs cleanly. |
 
 ## 🧠 What the skill knows
@@ -137,7 +137,7 @@ See Claude's [skill upload instructions](https://support.claude.com/en/articles/
 
 ### Assets and scripts
 
-- **[`commitlint.config.mjs`](assets/commitlint.config.mjs)**: enforces the contract, including the breaking declaration and the exact co-author line.
+- **[`commitlint.config.mjs`](assets/commitlint.config.mjs)**: enforces the contract, including the breaking declaration and configurable accepted co-author lines.
 - **[`commit-template.txt`](assets/commit-template.txt)**: shows the contract in the editor via `git config commit.template`.
 - **[`lint-commit.py`](scripts/lint-commit.py)**: offline checker for a message, stdin, or a revision range. Python 3.9+, no dependencies.
 - **[`validate-skill.py`](scripts/validate-skill.py)**: structural check of this package.

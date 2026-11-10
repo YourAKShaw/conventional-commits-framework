@@ -16,7 +16,7 @@ Put the emoji at the start of the subject, after `: `. Verified with `convention
 
 Rules when a repository uses emoji:
 
-- **One form.** Shortcodes (`:sparkles:`) or unicode (`✨`), whichever history uses. Do not mix, for the same reason the co-author trailer never varies.
+- **One form.** Shortcodes (`:sparkles:`) or unicode (`✨`), whichever history uses. Do not mix, to keep the project style consistent.
 - **One emoji per commit**, matching the type and the actual change.
 - **Length still counts.** The emoji is part of the header; keep the header at 72 characters or fewer and the text after the emoji at 10-50.
 - **Lower-case text after it**: `:bug: fix ...` is wrong because the verb duplicates the type; write `fix(api): :bug: return 404 for missing orders`.

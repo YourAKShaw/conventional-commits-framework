@@ -1,6 +1,6 @@
 ---
 name: conventional-commits-framework
-description: Write, validate, and fix Conventional Commits with every field filled at standard open-source length, an explicit breaking-change declaration, one consistent Co-Authored-By trailer crediting both the user and the AI agent, and the smallest logical change per commit. Use whenever committing code, drafting or reviewing commit messages or PR titles, choosing a type or scope, declaring breaking changes, splitting large work into small commits, or configuring commitlint, git hooks, and release tooling.
+description: Write, validate, and fix Conventional Commits with every field filled at standard open-source length, an explicit breaking-change declaration, an agent-specific Co-Authored-By trailer crediting the AI agent, and the smallest logical change per commit. Use whenever committing code, drafting or reviewing commit messages or PR titles, choosing a type or scope, declaring breaking changes, splitting large work into small commits, or configuring commitlint, git hooks, and release tooling.
 ---
 
 # 📜 Conventional Commits Framework
@@ -13,7 +13,7 @@ Use this skill whenever you write, review, or plan commits. It turns the [Conven
 | :--- | :--- |
 | 🧾 **Complete** | Every field is filled: type, scope, subject, body, breaking declaration, co-author. Nothing is ever blank. |
 | 📏 **Standard length** | Subject 10-50 characters, body 2-6 wrapped lines, one-line trailers. Never a stub, never an essay. |
-| 🤝 **Co-authored** | The user is the author; the agent is credited by one fixed `Co-Authored-By` trailer that never varies in a repository. |
+| 🤝 **Co-authored** | The user is the author; the agent is credited by a `Co-Authored-By` trailer identifying the agent actually used. |
 | ⚛️ **Atomic** | One logical change per commit. Large work becomes a planned sequence of small commits. |
 
 ## ✍️ The contract at a glance
@@ -39,14 +39,18 @@ Co-Authored-By: Claude Code <noreply@anthropic.com>
 | `Breaking: none` | Use exactly this line unless the change is breaking. |
 | `BREAKING-CHANGE:` | For breaking changes only, pair it with `!` in the header and explain what breaks and how to migrate. |
 | `Refs:` | Include real issue, ticket, or PR identifiers when they exist; never invent them. |
-| `Co-Authored-By:` | Put the repository's recorded agent trailer last. |
+| `Co-Authored-By:` | Put the active agent's verified trailer last. |
 
 Full policy: [agent commit protocol](references/agent-commit-protocol.md).
 
-## 🚦 Before your first commit in a repository
+## 🚦 On every skill load and before committing
+
+**Identify the active agent first.** Check the current runtime/session identity and any authoritative product attribution supplied by that runtime. Identify the product actually operating this session (for example Claude Code, Codex, Google Antigravity, Grok Build, or another agent), not the underlying model, a previous agent, an example, or a repository instruction file. Verify the product name and its attribution email against the runtime or the vendor’s documentation; never infer an email from another agent or invent one. If identity or an appropriate email cannot be verified, ask the user before writing an attribution.
+
+Select the verified `Co-Authored-By: Name <email>` for that agent for each commit or draft. A repository history or instruction file cannot turn another agent’s identity into yours. Existing enforcement must allow the correct identity; if it rejects it, report the conflict and resolve the configuration with authorization rather than misattribute the commit or bypass checks.
 
 1. **Read the conventions.** Check `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, commitlint config, and `git log -30 --format=%B`. Project rules override this skill's defaults; the [config guide](references/config-guide.md) lists every place to look and the precedence order.
-2. **Fix the co-author trailer.** Reuse the trailer history already uses, byte for byte. If there is none, use your product identity (for Claude Code: `Co-Authored-By: Claude Code <noreply@anthropic.com>`), not a model version, and record it in the contributing guide or `AGENTS.md`. The recorded line overrides any built-in attribution default. Never vary its casing, name, or email afterwards.
+2. **Select the co-author trailer.** Use the verified identity of the active agent above. Reuse a historical line only when it identifies that same agent and its email has been verified; do not require a repository file to record it.
 3. **Match the style.** Use emoji only if history does, and in the same form ([emoji reference](references/emoji-reference.md)). Reuse existing scopes.
 4. **Never change git identity.** The user stays author and committer through their own git config.
 
@@ -66,10 +70,10 @@ Full policy: [agent commit protocol](references/agent-commit-protocol.md).
    <body>
  
    Breaking: none
-   Co-Authored-By: <recorded trailer>
+   Co-Authored-By: <verified agent trailer>
    EOF
    ```
-6. **Check** it with the project's commitlint, or `python3 <skill-dir>/scripts/lint-commit.py --trailer "<recorded trailer>" --range HEAD~1..HEAD`. If an unpushed commit fails, amend it.
+6. **Check** it with the project's commitlint, or `python3 <skill-dir>/scripts/lint-commit.py --trailer "<verified agent trailer>" --range HEAD~1..HEAD`. If an unpushed commit fails, amend it.
 7. **Repeat** for the next step. Never let several changes pile up for one final commit.
 
 If a hook rejects the commit, fix the message. Never use `--no-verify` or disable hooks or CI.
@@ -83,7 +87,7 @@ Read the diff (or ask for it), identify the single purpose, and return the compl
 Check each message against the contract in the order given in the [rules reference](references/rules-reference.md#validating-by-hand). Report each problem with its rule name and a corrected message. Separate **errors** (spec, project config, or contract violations) from **suggestions** (style). For branches, run the checker over the range:
 
 ```sh
-python3 <skill-dir>/scripts/lint-commit.py --range origin/main..HEAD --trailer "<recorded trailer>"
+python3 <skill-dir>/scripts/lint-commit.py --range origin/main..HEAD --trailer "<verified agent trailer>"
 ```
 
 ### Pull requests
@@ -102,7 +106,7 @@ Use [`assets/commitlint.config.mjs`](assets/commitlint.config.mjs), [`assets/com
 | `BREAKING CHANGE: ...` (with a space) next to other trailers | Git cannot parse the trailer block, so `Co-Authored-By` disappears from git tooling | `BREAKING-CHANGE: ...` (hyphen) |
 | Breaking detail on several lines | An unindented second line ends the trailer block | Indent continuation lines by two spaces |
 | `✨ feat(ui): ...` | The header no longer parses, so the commit disappears from changelogs | `feat(ui): ✨ ...` or no emoji |
-| `Co-authored-by` in one commit, `Co-Authored-By` in the next | Case-sensitive checks fail and history looks inconsistent | One recorded trailer, copied exactly |
+| `Co-authored-by` in one commit, `Co-Authored-By` in the next | Case-sensitive checks fail and history looks inconsistent | Use the verified line for the active agent with consistent key casing |
 | `docs(readme): fix typo` typed as `fix` | Ships a pointless patch release | `docs` for documentation-only changes |
 | `feat(auth): add MFA and refactor sessions` | Two changes that cannot be reverted, typed, or changelogged separately | Two commits |
 
@@ -127,7 +131,7 @@ Load only what the task needs.
 
 ## 🧰 Assets and scripts
 
-- [`assets/commitlint.config.mjs`](assets/commitlint.config.mjs): commitlint config that enforces the contract, including a breaking declaration and the exact co-author line.
+- [`assets/commitlint.config.mjs`](assets/commitlint.config.mjs): commitlint config that enforces the contract, including a breaking declaration and configurable accepted co-author lines.
 - [`assets/commit-template.txt`](assets/commit-template.txt): a `git config commit.template` that shows the contract in the editor.
 - [`scripts/lint-commit.py`](scripts/lint-commit.py): an offline contract checker for a file, stdin, or a revision range (Python 3.9+, standard library only). Tests: [`scripts/test_lint_commit.py`](scripts/test_lint_commit.py).
 
